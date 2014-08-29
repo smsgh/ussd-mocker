@@ -1,4 +1,48 @@
 extends shared/_layout.jade
 
 block content
-  p Hello
+  .row
+    .col-xs-12
+      h2 Initiate a session
+
+      form(method='POST', action='/initiate')
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            p <strong>*</strong> = Required fields
+        .form-group
+          label.col-sm-2.control-label USSD Client URL *
+          .col-sm-10
+            input(name='Url', required).form-control
+            span.help-block.
+              URL where USSD Client is running.
+        
+        .form-group
+          label.col-sm-2.control-label Service Code
+          .col-sm-10
+            input(name='ServiceCode').form-control
+            span.help-block.
+              USSD code the user dials to access service.
+              Example: <em>714</em>.
+              Will default to this if left blank.
+
+        .form-group
+          label.col-sm-2.control-label Mobile Number
+          .col-sm-10
+            input(name='Mobile').form-control
+            span.help-block.
+              User's mobile phone number.
+              Example: <em>233244567890</em>. 
+              Will default to this if left blank.
+
+        .form-group
+          label.col-sm-2.control-label Operator
+          .col-sm-10
+            input(name='Operator').form-control
+            span.help-block.
+              User's mobile network/operator.
+              Example: <em>mtn</em>. 
+              Will default to this if left blank.
+
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            button(type='submit').btn.btn-primary Start

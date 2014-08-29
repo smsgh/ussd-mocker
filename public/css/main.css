@@ -1,0 +1,8 @@
+@font-face {
+  font-family: gotham;
+  src: url(/font/GOTHAM-BOOK.OTF);
+}
+
+body {
+  font-family: gotham;
+}
