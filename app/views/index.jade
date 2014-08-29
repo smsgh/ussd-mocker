@@ -5,7 +5,7 @@ block content
     .col-xs-12
       h2 Initiate a session
 
-      form(method='POST', action='/initiate')
+      form(method='POST', action='/')
         .form-group
           .col-sm-offset-2.col-sm-10
             p <strong>*</strong> = Required fields
@@ -15,6 +15,7 @@ block content
             input(name='Url', required).form-control
             span.help-block.
               URL where USSD Client is running.
+              Example: http://localhost:5000
         
         .form-group
           label.col-sm-2.control-label Service Code

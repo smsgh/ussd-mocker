@@ -1,6 +1,7 @@
 var express = require('express')
   , util = require('util')
   , bodyParser = require('body-parser')
+  , cookieParser = require('cookie-parser')
   , route = require('./route')
   ;
 
@@ -11,6 +12,7 @@ app.set('domain', '127.0.0.1');
 app.set('view engine', 'jade');
 app.set('views', 'app/views');
 
+app.use(cookieParser());
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 

@@ -1,0 +1,29 @@
+extends shared/_layout.jade
+
+block content
+  .row
+    .col-xs-12.clearfix
+      h2.pull-left Session
+      a(href='/').btn.btn-primary.margin-top-20.pull-right New Session
+
+  .row
+    .col-sm-6
+      .session-ui
+
+    .col-sm-6
+      .list-group
+        .list-group-item
+          h4.list-group-item-heading Session ID
+          p.list-group-item-text= session.Id
+        .list-group-item
+          h4.list-group-item-heading USSD Client URL
+          p.list-group-item-text= session.ClientUrl
+        .list-group-item
+          h4.list-group-item-heading Service Code
+          p.list-group-item-text= session.ServiceCode
+        .list-group-item
+          h4.list-group-item-heading Mobile
+          p.list-group-item-text= session.Mobile
+        .list-group-item
+          h4.list-group-item-heading  Operator
+          p.list-group-item-text= session.Operator
