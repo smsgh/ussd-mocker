@@ -24,4 +24,4 @@ From the root folder, run the server;
 $ node index.js
 ```
 
-Open [http://localhost:8773](http://127.0.0.1:8773) in your browser.
+Open [http://localhost:8773](http://localhost:8773) in your browser.
