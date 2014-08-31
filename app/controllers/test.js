@@ -6,7 +6,8 @@ var newline = '\r\n';
 function test (req, res, next) {
   var response = {
     Type: 'Response',
-    Message: 'Welcome to the Test Service, User' + newline
+    Message: 'Welcome to the Test Service, User.' + newline
+      + 'Watch the request\'s Message and Sequence parameters.' + newline
       + '1. Men' + newline
       + '2. Women' + newline
       + '3. Children'
@@ -20,6 +21,7 @@ function test (req, res, next) {
     case 'Initiation':
     case 'Response':
       return res.json(response);
+    case 'Timeout':
     case 'Release':
       return res.json(release);
     default:

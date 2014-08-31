@@ -1,11 +1,16 @@
 var randomstring = require('randomstring')
   , Validr = require('validr')
+  , Promise = require('bluebird')
+  , request = require('superagent')
   ;
 
 module.exports = {
   index: index,
+  session: session,
   initiate: initiate,
-  session: session
+  response: response,
+  release: release,
+  timeout: timeout
 };
 
 
@@ -14,38 +19,81 @@ function index (req, res, next) {
   res.render('index');
 }
 
+function session (req, res, next) {
+  var session = req.cookies.session;
+  if (!session) 
+    return res.redirect('/');
+  session.response.Message = session.response.Message
+    .replace(/\r\n/g, '<br>')
+    .replace(/\n/g, '<br>')
+    ;
+  res.render('session', {
+    session: session
+  });
+}
+
 function initiate (req, res, next) {
   var body = req.body;
   var errors = validateInitiate(body);
   if (errors) return res.redirect('/');
-  var session = {
-    Id: randomstring.generate(32),
-    Type: 'Initiation',
-    Sequence: 1,
-    ClientUrl: body.Url,
-    ServiceCode: body.ServiceCode || 714,
+  var serviceCode = body.ServiceCode || 714;
+  var session = {};
+  session.ClientUrl = body.Url;
+  session.request = {
+    SessionId: randomstring.generate(32),
     Mobile: body.Mobile || '233244567890',
-    Operator: body.Operator || body.Operator.toLowerCase() || 'mtn'
+    ServiceCode: serviceCode,
+    Type: 'Initiation',
+    Message: '*'+serviceCode+'#',
+    Operator: body.Operator || body.Operator.toLowerCase() || 'mtn',
+    Sequence: 1      
   };
-  res.cookie('session', session);
-  res.redirect('/session');
+  messageClient(session)
+  .then(function (session) {
+    res.cookie('session', session);
+    res.redirect('/session');
+  }).catch(next);
 }
 
-function session (req, res, next) {
+function response (req, res, next) {
   var session = req.cookies.session;
   if (!session) return res.redirect('/');
-  switch (req.method) {
-    case 'POST':
-      session.Sequence += 1;
-      
-      break;
-  }
+  session.request.Type = 'Response';
+  session.request.Message = req.body.UserInput || '';
+  session.request.ClientState = session.response.ClientState || '';
+  session.request.Sequence += 1;
+  messageClient(session)
+  .then(function (session) {
+    res.cookie('session', session);
+    res.redirect('/session');
+  }).catch(next);
+}
 
-  var ussdRequest = generateUssdRequest(session, req.body);
+function release (req, res, next) {
+  var session = req.cookies.session;
+  if (!session) return res.redirect('/');
+  session.request.Type = 'Release';
+  session.request.Message = '';
+  session.request.ClientState = session.response.ClientState || '';
+  session.request.Sequence += 1;
+  messageClient(session)
+  .then(function (session) {
+    // res.cookie('session', session);
+    res.redirect('/');
+  }).catch(next);
+}
 
-  res.render('session', {
-    session: session
-  });
+function timeout (req, res, next) {
+  var session = req.cookies.session;
+  if (!session) return res.redirect('/');
+  session.request.Type = 'Timeout';
+  session.request.Message = '';
+  session.request.ClientState = session.response.ClientState || '';
+  session.request.Sequence += 1;
+  messageClient(session)
+  .then(function (session) {
+    res.redirect('/');
+  }).catch(next);
 }
 
 
@@ -66,29 +114,53 @@ function validateInitiate (body) {
   return validr.validationErrors(true);
 }
 
+function validateResponse (body) {
+  var validr = new Validr(body);
+  validr.validate('UserInput', 'User input must be valid number')
+    .isLength(1).isNumeric();
+  return validr.validationErrors(true);
+}
+
+function validateUssdResponse (body) {
+  var validr = new Validr(body);
+  validr.validate('Type', 'Type is required.')
+    .isLength(1);
+  validr.validate('Message', 'Message is required.')
+    .isLength(1);
+  return validr.validationErrors(true);
+}
+
 /**
  * Generate SMSGH USSD request
  * @param  {object} session Cookie session
  * @param  {object} body    session action request body
  * @return {object} 
  */
-function generateUssdRequest (session, body) {
-  var msg;
-  switch (session.Type) {
-    case 'Initiation':
-      session.Sequence = 1;
-      msg = '*'+session.ServiceCode+'#';
-      break;
-    default:
-      session.Sequence += 1;
-  }
+function generateResponseRequest (session, body) {
   return {
     Mobile: session.Mobile,
     SessionId: session.Id,
     ServiceCode: session.ServiceCode,
     Type: session.Type,
-    Message: '',
+    Message: body.UserInput || '',
     Operator: session.Operator,
     Sequence: session.Sequence
   };
+}
+
+function messageClient (session) {
+  return new Promise(function (resolve, reject) {
+    request.post(session.ClientUrl)
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .send(session.request)
+    .end(function (err, res) {
+      if (err) return reject(err);
+      if (!res.ok) 
+        return reject(new Error("Didn't get a successful response from client at "
+          + session.ClientUrl));
+      session.response = res.body;
+      resolve(session);
+    })
+  });
 }

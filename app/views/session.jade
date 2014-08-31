@@ -8,22 +8,58 @@ block content
 
   .row
     .col-sm-6
+      -var response = session.response;
       .session-ui
+        .session-ui-content
+          p!= response.Message
+          case response.Type
+            when 'Response'
+              form(action='/session/response', method='POST')#responseForm.form
+                .form-group
+                  input(name='UserInput').form-control
+                button(type='submit').btn.btn-default.margin-right-10 Send
+                a(href='/session/release').btn.btn-default Cancel
+            when 'Release'
+                a(href='/session/release').btn.btn-default Cancel
+      p: a(href='/session/timeout').btn.btn-warning.margin-top-10 Send Timeout
+
 
     .col-sm-6
       .list-group
         .list-group-item
-          h4.list-group-item-heading Session ID
-          p.list-group-item-text= session.Id
-        .list-group-item
           h4.list-group-item-heading USSD Client URL
           p.list-group-item-text= session.ClientUrl
+
+      - var request = session.request;
+      h3 Request:
+      .list-group        
+        .list-group-item
+          h4.list-group-item-heading SessionId
+          p.list-group-item-text= request.SessionId
         .list-group-item
           h4.list-group-item-heading Service Code
-          p.list-group-item-text= session.ServiceCode
+          p.list-group-item-text= request.ServiceCode
         .list-group-item
           h4.list-group-item-heading Mobile
-          p.list-group-item-text= session.Mobile
+          p.list-group-item-text= request.Mobile
+        .list-group-item
+          h4.list-group-item-heading Type
+          p.list-group-item-text= request.Type
+        .list-group-item
+          h4.list-group-item-heading Message
+          p.list-group-item-text= request.Message
         .list-group-item
           h4.list-group-item-heading  Operator
-          p.list-group-item-text= session.Operator
+          p.list-group-item-text= request.Operator
+        .list-group-item
+          h4.list-group-item-heading Sequence
+          p.list-group-item-text= request.Sequence
+        
+      h4 Response:
+      .list-group
+        .list-group-item
+          h4.list-group-item-heading Type
+          p.list-group-item-text= response.Type
+        .list-group-item
+          h4.list-group-item-heading Message
+          p.list-group-item-text!= response.Message
