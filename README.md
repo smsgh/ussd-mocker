@@ -10,7 +10,7 @@ Install [Node.js](http://nodejs.org).
 
 Install [Git](http://git-scm.com).
 
-Then;
+Then, from command line or terminal;
 ```bash
 $ git clone https://github.com/smsgh/ussd-mocker
 $ cd ussd-mocker
