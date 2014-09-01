@@ -4,24 +4,12 @@ A web app for mocking interactions with an SMSGH USSD client.
 
 This is a UI that mimicks how users will interact with a USSD client during development and testing.
 
-## Installation
+## Installation & Usage
 
 Install [Node.js](http://nodejs.org).
 
-Install [Git](http://git-scm.com).
+[Download](https://github.com/smsgh/ussd-mocker/archive/master.zip) and unzip.
 
-Then, from command line or terminal;
-```bash
-$ git clone https://github.com/smsgh/ussd-mocker
-$ cd ussd-mocker
-$ npm install
-```
-
-## Usage
-
-From the root folder, run the server;
-```bash
-$ node index.js
-```
+Go into folder and run `ussd-mocker.bat` (Windows) or `ussd-mocker.sh` (Unix). This will start the local server.
 
 Open [http://localhost:8773](http://localhost:8773) in your browser.
