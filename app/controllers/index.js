@@ -16,7 +16,9 @@ module.exports = {
 
 function index (req, res, next) {
   res.clearCookie('session');
-  res.render('index');
+  res.render('index', {
+    ClientUrl: req.cookies.ClientUrl || 'http://127.0.0.1:8773/test'
+  });
 }
 
 function session (req, res, next) {
@@ -51,6 +53,7 @@ function initiate (req, res, next) {
   messageClient(session)
   .then(function (session) {
     res.cookie('session', session);
+    res.cookie('ClientUrl', session.ClientUrl);
     res.redirect('/session');
   }).catch(next);
 }
