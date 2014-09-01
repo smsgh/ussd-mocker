@@ -13,14 +13,12 @@ app.set('view engine', 'jade');
 app.set('views', 'app/views');
 
 app.use(cookieParser());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 route(app);
 
 app.use(express.static('public'));
-
-
 
 app.listen(app.get('port'), app.get('domain'), function () {
   console.log(util.format('Point your browser to http://%s:%d to start using USSD Mocker.'
