@@ -8,20 +8,25 @@ block content
 
   .row
     .col-sm-6
-      -var response = session.response;
-      .session-ui
-        .session-ui-content
-          p!= response.Message
-          case response.Type
-            when 'Response'
-              form(action='/session/response', method='POST')#responseForm.form
-                .form-group
-                  input(name='UserInput').form-control
-                button(type='submit').btn.btn-default.margin-right-10 Send
-                a(href='/session/release').btn.btn-default Cancel
-            when 'Release'
-                a(href='/session/release').btn.btn-default Cancel
-      p: a(href='/session/timeout').btn.btn-warning.margin-top-10 Send Timeout
+      - var request = session.request;
+      - var response = session.response;
+      if request.Type !== 'Timeout'
+        .session-ui
+          .session-ui-content
+            p!= response.Message
+            case response.Type
+              when 'Response'
+                form(action='/session/response', method='POST')#responseForm.form
+                  .form-group
+                    input(name='UserInput').form-control
+                  button(type='submit').btn.btn-default.margin-right-10 Send
+                  a(href='/session/release').btn.btn-default Cancel
+              when 'Release'
+                  a(href='/').btn.btn-default OK
+        p: a(href='/session/timeout').btn.btn-warning.margin-top-10 Send Timeout
+      else
+        p Timout sent!
+        p: a(href='/').btn.btn-primary New Session
 
 
     .col-sm-6
@@ -30,7 +35,6 @@ block content
           h4.list-group-item-heading USSD Client URL
           p.list-group-item-text= session.ClientUrl
 
-      - var request = session.request;
       h3 Request:
       .list-group        
         .list-group-item
@@ -55,7 +59,7 @@ block content
           h4.list-group-item-heading Sequence
           p.list-group-item-text= request.Sequence
         
-      h4 Response:
+      h3 Response:
       .list-group
         .list-group-item
           h4.list-group-item-heading Type

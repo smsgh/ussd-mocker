@@ -78,8 +78,8 @@ function release (req, res, next) {
   session.request.Sequence += 1;
   messageClient(session)
   .then(function (session) {
-    // res.cookie('session', session);
-    res.redirect('/');
+    res.cookie('session', session);
+    res.redirect('/session');
   }).catch(next);
 }
 
@@ -92,7 +92,8 @@ function timeout (req, res, next) {
   session.request.Sequence += 1;
   messageClient(session)
   .then(function (session) {
-    res.redirect('/');
+    res.cookie('session', session);
+    res.redirect('/session');
   }).catch(next);
 }
 
