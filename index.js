@@ -21,6 +21,7 @@ route(app);
 app.use(express.static('public'));
 
 app.listen(app.get('port'), app.get('domain'), function () {
-  console.log(util.format('Point your browser to http://%s:%d to start using USSD Mocker.'
+  console.log(util.format('\nPoint your browser to http://%s:%d to start using SMSGH USSD Mocker.\n'
+    + 'NOTE: Closing this window will stop the web application\'s server.'
     , app.get('domain'), app.get('port')));
 });
