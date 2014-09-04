@@ -58,6 +58,9 @@ block content
         .list-group-item
           h4.list-group-item-heading Sequence
           p.list-group-item-text= request.Sequence
+        .list-group-item
+          h4.list-group-item-heading Client State
+          p.list-group-item-text= request.ClientState
         
       h3 Response:
       .list-group
@@ -67,3 +70,6 @@ block content
         .list-group-item
           h4.list-group-item-heading Message
           p.list-group-item-text!= response.Message
+        .list-group-item
+          h4.list-group-item-heading Client State
+          p.list-group-item-text= response.ClientState
