@@ -23,7 +23,7 @@ block content
         .form-group
           label.col-sm-2.control-label Service Code
           .col-sm-10
-            input(name='ServiceCode').form-control
+            input(name='ServiceCode', value=ServiceCode).form-control
             span.help-block.
               USSD code the user dials to access service.
               Example: <strong>714</strong>.
@@ -32,7 +32,7 @@ block content
         .form-group
           label.col-sm-2.control-label Mobile Number
           .col-sm-10
-            input(name='Mobile', number).form-control
+            input(name='Mobile', value=Mobile, number).form-control
             span.help-block.
               User's mobile phone number.
               Example: <strong>233244567890</strong>. 
@@ -41,7 +41,7 @@ block content
         .form-group
           label.col-sm-2.control-label Operator
           .col-sm-10
-            input(name='Operator').form-control
+            input(name='Operator', value=Operator).form-control
             span.help-block.
               User's mobile network/operator.
               Example: <strong>mtn</strong>. 

@@ -17,7 +17,10 @@ module.exports = {
 function index (req, res, next) {
   res.clearCookie('session');
   res.render('index', {
-    ClientUrl: req.cookies.ClientUrl || 'http://127.0.0.1:8773/test'
+    ClientUrl: req.cookies.ClientUrl || 'http://127.0.0.1:8773/test',
+    ServiceCode: req.cookies.ServiceCode || '',
+    Mobile: req.cookies.Mobile || '',
+    Operator: req.cookies.Operator || ''
   });
 }
 
@@ -54,6 +57,9 @@ function initiate (req, res, next) {
   .then(function (session) {
     res.cookie('session', session);
     res.cookie('ClientUrl', session.ClientUrl);
+    res.cookie('ServiceCode', session.request.ServiceCode);
+    res.cookie('Mobile', session.request.Mobile);
+    res.cookie('Operator', session.request.Operator);
     res.redirect('/session');
   }).catch(next);
 }
