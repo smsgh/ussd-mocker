@@ -29,6 +29,7 @@ function session (req, res, next) {
   if (!session) 
     return res.redirect('/');
   session.response.Message = session.response.Message
+    .substr(0, 182)
     .replace(/\r\n/g, '<br>')
     .replace(/\n/g, '<br>')
     ;
