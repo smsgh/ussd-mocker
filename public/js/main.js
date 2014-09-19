@@ -1,8 +1,7 @@
 $('#initiateForm').validate({
   rules: {
     Url: {
-      required: true,
-      url: true
+      required: true
     },
     ServiceCode: {
       digits: true
