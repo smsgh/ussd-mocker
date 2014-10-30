@@ -3,9 +3,6 @@ $('#initiateForm').validate({
     Url: {
       required: true
     },
-    ServiceCode: {
-      digits: true
-    },
     Mobile: {
       digits: true
     }
