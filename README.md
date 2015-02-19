@@ -1,8 +1,8 @@
 # USSD Mocker
 
-A web app for simulating interactions with an SMSGH USSD client.
+A web app for simulating interactions with a [USSD application](http://developers.smsgh.com/documentations/ussd) built on our [platform](http://developers.smsgh.com/documentations/ussd).
 
-Provides a user-friendly interface and a USSD flow that mimicks an actual USSD session.
+Provides a user-friendly interface and a USSD flow that mimicks a real USSD session.
 
 ## Installation & Usage
 
