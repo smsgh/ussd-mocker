@@ -28,7 +28,9 @@ function session (req, res, next) {
   var session = req.cookies.session;
   if (!session) 
     return res.redirect('/');
-  session.response.Message = session.response.Message
+  session.response.Type = session.response.Type || session.response.type;
+  session.response.ClientState = session.response.ClientState || session.response.clientState || session.response.client_state;
+  session.response.Message = session.response.Message || session.response.message
     .substr(0, 182)
     .replace(/\r\n/g, '<br>')
     .replace(/\n/g, '<br>')
