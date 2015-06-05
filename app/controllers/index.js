@@ -20,7 +20,8 @@ function index (req, res, next) {
     ClientUrl: req.cookies.ClientUrl || 'http://127.0.0.1:8773/test',
     ServiceCode: req.cookies.ServiceCode || '',
     Mobile: req.cookies.Mobile || '',
-    Operator: req.cookies.Operator || ''
+    Operator: req.cookies.Operator || '',
+    InitiationMessage: req.cookies.InitiationMessage || '',
   });
 }
 
@@ -50,7 +51,7 @@ function initiate (req, res, next) {
     Mobile: body.Mobile || '233244567890',
     ServiceCode: serviceCode,
     Type: 'Initiation',
-    Message: serviceCode,
+    Message: body.InitiationMessage || serviceCode,
     Operator: body.Operator || body.Operator.toLowerCase() || 'mtn',
     Sequence: 1      
   };
@@ -61,6 +62,7 @@ function initiate (req, res, next) {
     res.cookie('ServiceCode', session.request.ServiceCode);
     res.cookie('Mobile', session.request.Mobile);
     res.cookie('Operator', session.request.Operator);
+    res.cookie('InitiationMessage', session.request.Message);
     res.redirect('/session');
   }).catch(next);
 }

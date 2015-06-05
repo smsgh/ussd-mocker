@@ -45,5 +45,14 @@ block content
               Will default to this if left blank.
 
         .form-group
+          label.col-sm-2.control-label Initiation Message
+          .col-sm-10
+            input(name='InitiationMessage', value=InitiationMessage).form-control
+            span.help-block.
+              USSD code the user dials.
+              Example: <strong>*714*100*1#</strong>.
+              Will default to <strong>Service Code</strong> if left blank.
+
+        .form-group
           .col-sm-offset-2.col-sm-10
             button(type='submit').btn.btn-primary Start
