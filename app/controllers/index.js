@@ -42,7 +42,7 @@ function initiate (req, res, next) {
   var body = req.body;
   var errors = validateInitiate(body);
   if (errors) return res.redirect('/');
-  var serviceCode = body.ServiceCode || 714;
+  var serviceCode = body.ServiceCode || '*714*100#';
   var session = {};
   session.ClientUrl = body.Url;
   session.request = {
@@ -50,7 +50,7 @@ function initiate (req, res, next) {
     Mobile: body.Mobile || '233244567890',
     ServiceCode: serviceCode,
     Type: 'Initiation',
-    Message: '*'+serviceCode+'#',
+    Message: serviceCode,
     Operator: body.Operator || body.Operator.toLowerCase() || 'mtn',
     Sequence: 1      
   };
