@@ -1,6 +1,6 @@
 # USSD Mocker
 
-A web app for simulating interactions with a [USSD application](https://developers.hubtel.com/documentations/ussd) built on our [platform](https://developers.hubtel.com/documentations/ussd).
+A web app for simulating interactions with a [USSD application](https://developers.hubtel.com/docs/general-services-1) built on our [platform](https://developers.hubtel.com/docs/general-services-1).
 
 Provides a user-friendly interface and a USSD flow that mimicks a real USSD session.
 
